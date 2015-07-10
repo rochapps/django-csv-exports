@@ -20,7 +20,7 @@ Installation
 
 To install::
 
-    pip install django-exports
+    pip install django-csv-exports
 
 Next add `django_exports` to your `INSTALLED_APPS` to include the related css/js::
 

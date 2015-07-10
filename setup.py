@@ -13,19 +13,19 @@ def read_file(filename):
 
 
 setup(
-    name='django-django_csv_exports',
+    name='django-csv-exports',
     version=__import__('django_csv_exports').__version__,
-    author='<Include Your Name Here>',
-    author_email='<Include Your Email Here>',
+    author='Victor Rocha',
+    author_email='victor@rochapps.com',
     packages=find_packages(),
     include_package_data=True,
-    url='<Include Link to Project>',
-    license='<Include License Name>',
+    url='https://github.com/victor-rocha/django-csv-exports',
+    license='BSD',
     description=u' '.join(__import__('django_csv_exports').__doc__.splitlines()).strip(),
     classifiers=[
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Intended Audience :: Developers',
-        'Programming Language :: Python',      
+        'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Framework :: Django',
