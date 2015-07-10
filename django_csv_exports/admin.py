@@ -13,7 +13,7 @@ def export_as_csv(admin_model, request, queryset):
     # everyone has perms to export as csv unless explicitly defined
     if getattr(settings, 'DJANGO_EXPORTS_REQUIRE_PERM', None):
         admin_opts = admin_model.opts
-        codename = '%s_%s' % ('csv', admin_opts.model_name)
+        codename = '%s_%s' % ('csv', admin_opts.object_name.lower())
         has_csv_permission = request.user.has_perm("%s.%s" % (admin_opts.app_label, codename))
     else:
         has_csv_permission = admin_model.has_csv_permission(request) \
@@ -55,7 +55,7 @@ class CSVExportAdmin(admin.ModelAdmin):
         """
         if getattr(settings, 'DJANGO_EXPORTS_REQUIRE_PERM', None):
             opts = self.opts
-            codename = '%s_%s' % ('csv', opts.model_name)
+            codename = '%s_%s' % ('csv', opts.object_name.lower())
             return request.user.has_perm("%s.%s" % (opts.app_label, codename))
         return True
 
