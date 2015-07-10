@@ -1,7 +1,8 @@
-django_exports
+Django CSV Exports
 ========================
 
-Welcome to the documentation for django-django_exports!
+An admin action that allows you to export your models as CSV files without
+having to write a single line of code --besides installation, of course.
 
 Features
 -----------------------------------
@@ -49,19 +50,20 @@ at the admin model level. Define the following attribute in your AdminModel::
         csv_fields = ['first_name', 'last_name', 'email', 'phone_number',]
 
 
-Permission granularity
+Permission
 --------------------------------
-User permissions: If you want to limit who can export CSV files from the admin interface.
-You can define a custom permission in your model::
+There are two ways to limit who can export data as CSV files.
+
+Model level permissions: create a new model permission and assign it only to
+user who should have access to the export action in the admin.
 
     class Client(models.Model):
         class Meta:
             permissions = (("can_csv_client", "Can export list of clients as CSV file"),)
 
-The second way to limit who has access to exporting as csv is by defining a `has_csv_permission`
-method in your admin model as follows::
+AdminModel Level permissions: define a `has_csv_permission` and return True if a user should have access::
 
-    class ClientAdmin(CSVExportAdmin):
+    class ClientAdmin(admin.AdminModel):
         search_fields = ('name', 'id', 'email')
         csv_fields = ['name', 'id']
 
@@ -69,6 +71,18 @@ method in your admin model as follows::
             """Only super users can export as CSV"""
             if request.user.is_superuser:
                 return True
+
+
+Selective Installation
+-------------------------
+Sometimes, you don't want to allow all of your admin models to be exported. For this, you will need to
+set `DJANGO_CSV_GLOBAL_EXPORTS_ENABLED` to False, and have your AdminModels extend our `CSVExportAdmin`
+admin class::
+
+    from django_csv_exports.admin import CSVExportAdmin
+
+    class ClientAdmin(CSVExportAdmin):
+        pass
 
 
 Running the Tests
