@@ -1,5 +1,6 @@
 import csv
 
+import django
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponse, HttpResponseForbidden
@@ -27,7 +28,10 @@ def export_as_csv(admin_model, request, queryset):
             field_names = [field.name for field in opts.fields]
             field_names.sort()
 
-        response = HttpResponse(mimetype='text/csv')
+        if django.VERSION[0] == 1 and django.VERSION[1] <= 5:
+            response = HttpResponse(mimetype='text/csv')
+        else:
+            response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=%s.csv' % unicode(opts).replace('.', '_')
 
         writer = csv.writer(response)
