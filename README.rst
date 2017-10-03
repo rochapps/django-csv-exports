@@ -17,6 +17,10 @@ Installation
 
 - Python 2.7, 3.3+
 - `Django <http://www.djangoproject.com/>`_ >= 1.5
+- Pandas
+    - Numpy
+    - python-dateutil
+    - pytz
 
 To install::
 
