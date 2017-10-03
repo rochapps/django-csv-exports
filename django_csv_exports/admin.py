@@ -1,5 +1,7 @@
 import csv
 
+import pandas
+
 import django
 from django.conf import settings
 from django.contrib import admin
@@ -35,10 +37,8 @@ def export_as_csv(admin_model, request, queryset):
             response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=%s.csv' % text(opts).replace('.', '_')
 
-        writer = csv.writer(response)
-        writer.writerow(list(field_names))
-        for obj in queryset:
-            writer.writerow([text(getattr(obj, field)).encode("utf-8", "replace") for field in field_names])
+        queryset = queryset.values_list(*field_names)
+        pandas.DataFrame(list(queryset), columns=field_names).to_csv(response)
         return response
     return HttpResponseForbidden()
 export_as_csv.short_description = "Export selected objects as csv file"
